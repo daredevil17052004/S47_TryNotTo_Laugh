@@ -76,29 +76,7 @@ mongoose.connect(uri)
       .catch(err => res.json(err));
   });
 
-  app.post('/login', (req, res) => {
-    const { email, password } = req.body;
-
-    const token = jwt.sign({ email }, JWT_SECRET_KEY, { expiresIn: '1h' });
-    res.cookie('token', token, { httpOnly: true });
-    res.json({ success: true });
-});
-
-function authenticateToken(req, res, next) {
-  const token = req.cookies.token;
-
-  if (!token) {
-      return res.status(401).json({ error: 'Unauthorized: Missing token' });
-  }
-
-  jwt.verify(token, JWT_SECRET_KEY, (err, decoded) => {
-      if (err) {
-          return res.status(403).json({ error: 'Forbidden: Invalid token' });
-      }
-      req.user = decoded;
-      next();
-  });
-}
+  
 
   })
   .catch(err => {
